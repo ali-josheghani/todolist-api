@@ -6,7 +6,7 @@ import get_todolist from './routes/handler/get-todolist';
 const app = express();
 
 // Specify the port number for the server
-const port: number = 3000;
+const port: number = Number(process.env.PORT) || 3000;
 
 // Define a route for the root path ('/')
 app.get('/', (req,res) =>{
