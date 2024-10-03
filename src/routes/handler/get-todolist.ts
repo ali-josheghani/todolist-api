@@ -9,11 +9,17 @@ const get_todolist = (req: Request, res: Response) => {
     if (err) {
       console.log(err.message);
     }
-    if (data) {
+    if (data && data.toString().trim()) {
       const dataParse = JSON.parse(data.toString());
-      res.send(dataParse);
+      return res.send(dataParse);
     } else {
-      res.send("No data");
+      fs.writeFile(filePath, JSON.stringify([]), (err) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send({ message: err.message });
+        }
+        return res.send([]);
+      });
     }
   });
 };

@@ -12,12 +12,18 @@ const get_todolist = (req, res) => {
         if (err) {
             console.log(err.message);
         }
-        if (data) {
+        if (data && data.toString().trim()) {
             const dataParse = JSON.parse(data.toString());
-            res.send(dataParse);
+            return res.send(dataParse);
         }
         else {
-            res.send("No data");
+            fs_1.default.writeFile(filePath, JSON.stringify([]), (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send({ message: err.message });
+                }
+                return res.send([]);
+            });
         }
     });
 };
